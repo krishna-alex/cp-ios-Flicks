@@ -5,4 +5,3 @@ use_frameworks!
 target 'Flicks' do
 pod 'AFNetworking', '~> 3.0'
 end
-
