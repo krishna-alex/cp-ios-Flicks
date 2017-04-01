@@ -5,4 +5,6 @@ use_frameworks!
 target 'Flicks' do
 pod 'AFNetworking', '~> 3.0'
 pod 'MBProgressHUD'
+#Network error alert
+pod 'FCAlertView'
 end

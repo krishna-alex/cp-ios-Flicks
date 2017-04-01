@@ -9,12 +9,13 @@
 import UIKit
 import AFNetworking
 import MBProgressHUD
+import FCAlertView
+
 
 class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var movies: [NSDictionary] = []
     @IBOutlet weak var moviesTableView: UITableView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,37 +33,11 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         // add refresh control to table view
         moviesTableView.insertSubview(refreshControl, at: 0)
 
-        //API call
-        let apikey = "api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = URL(string:"https://api.themoviedb.org/3/movie/now_playing?" + apikey)
-        let request = URLRequest(url: url!)
-        let session = URLSession(
-            configuration: URLSessionConfiguration.default,
-            delegate:nil,
-            delegateQueue:OperationQueue.main
-        )
-        
-        MBProgressHUD.showAdded(to: self.view, animated: true)
-
-        let task : URLSessionDataTask = session.dataTask(
-            with: request as URLRequest,
-            completionHandler: { (data, response, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
-                if let data = data {
-                    if let responseDictionary = try! JSONSerialization.jsonObject(
-                        with: data, options:[]) as? NSDictionary {
-                        
-                        // store the returned array of movies in the movies property
-                        self.movies = responseDictionary["results"] as! [NSDictionary]
-                        self.moviesTableView.reloadData()
-                       
-                    }
-                }
-        });
-        task.resume()
+        loadMovie()
 
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -118,7 +93,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             print(movie.value(forKeyPath: "vote_average") as? Float ??  0)
             
             if let movieVote = movie.value(forKeyPath: "vote_average") as? Float {
-                //print(movieVote)
                 destinationViewController.movierating = movieVote
             }
             else
@@ -130,31 +104,62 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func loadMovie()
+    {
+        //API call
+        let apikey = "api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        let url = URL(string:"https://api.themoviedb.org/3/movie/now_playing?" + apikey)
+        let request = URLRequest(url: url!)
+        let session = URLSession(
+            configuration: URLSessionConfiguration.default,
+            delegate:nil,
+            delegateQueue:OperationQueue.main
+        )
+        
+        //loading state while waiting for movies API
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        //CircularSpinner.show("Loading...", animated: true, type: .indeterminate)
+        
+        let task : URLSessionDataTask = session.dataTask(
+            with: request as URLRequest,
+            completionHandler: { (data, response, error) in
+                if let data = data {
+                    if let responseDictionary = try! JSONSerialization.jsonObject(
+                        with: data, options:[]) as? NSDictionary {
+                        MBProgressHUD.hide(for: self.view, animated: true)
+                        
+                        // store the returned array of movies in the movies property
+                        self.movies = responseDictionary["results"] as! [NSDictionary]
+                        self.moviesTableView.reloadData()
+                        
+                    }
+                }
+                if error != nil {
+                    //In case of network error alert with 'Network Error' message
+                    let alert = FCAlertView()
+                    alert.showAlert(inView: self,
+                                    withTitle: "",
+                                    withSubtitle: "Network Error.",
+                                    withCustomImage: nil,
+                                    withDoneButtonTitle: nil,
+                                    andButtons: nil)
+                }
+        });
+        task.resume()
+    }
+    
+    
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
         
-        let url = URL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")
-        let request = URLRequest(url: url!)
-
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        let task: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
-            if let data = data {
-                if let responseDictionary = try! JSONSerialization.jsonObject(
-                    with: data, options:[]) as? NSDictionary {
-                    self.movies = responseDictionary["results"] as! [NSDictionary]
-                    self.moviesTableView.reloadData()
-                }
-                
-                // Reload the tableView with new data
-                self.moviesTableView.reloadData()
-                
-                // End refreshing
-                refreshControl.endRefreshing()
-            }
-        }
-        task.resume()
+        loadMovie()
+        refreshControl.endRefreshing()
+        
     }
+    
+    
 
 
 }
+
 

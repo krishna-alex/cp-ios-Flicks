@@ -33,7 +33,7 @@ class MovieDetailsViewController: UIViewController {
         movieDetailsOverviewLabel.text = movieoverview
         
         print(movierating ?? 0)
-        movieDetailsRating.text = "\(movierating!)%"
+        movieDetailsRating.text = "\(movierating!)"
 
         
         let Formatter = DateFormatter()
