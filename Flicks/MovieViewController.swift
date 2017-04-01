@@ -8,11 +8,13 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
 
 class MovieViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var movies: [NSDictionary] = []
     @IBOutlet weak var moviesTableView: UITableView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,13 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         navigationController?.navigationBar.barTintColor = UIColor.init(displayP3Red: 0.14, green: 0.31, blue: 0.49, alpha: 1.0)
         navigationController?.navigationBar.barStyle = UIBarStyle.black
+        
+        // Initialize a UIRefreshControl
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        
+        // add refresh control to table view
+        moviesTableView.insertSubview(refreshControl, at: 0)
 
         //API call
         let apikey = "api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"
@@ -33,9 +42,12 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
             delegateQueue:OperationQueue.main
         )
         
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+
         let task : URLSessionDataTask = session.dataTask(
             with: request as URLRequest,
             completionHandler: { (data, response, error) in
+                MBProgressHUD.hide(for: self.view, animated: true)
                 if let data = data {
                     if let responseDictionary = try! JSONSerialization.jsonObject(
                         with: data, options:[]) as? NSDictionary {
@@ -68,7 +80,6 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let movieImage = movie.value(forKeyPath: "poster_path") as? String {
             let imageUrlString = "https://image.tmdb.org/t/p/w500" + (movieImage as String)
             if let imageUrl = URL(string: imageUrlString) {
-                print(imageUrl)
                 cell.movieImageView.setImageWith(imageUrl)
 
             }
@@ -80,6 +91,7 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let movieOverview = movie.value(forKeyPath: "overview") as? String {
             cell.movieOverviewLabel?.text = movieOverview
         }
+    
         return cell
     }
     
@@ -95,11 +107,53 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let indexPath = moviesTableView.indexPathForSelectedRow {
             let cell = moviesTableView.cellForRow(at: indexPath) as! MovieCell
             destinationViewController.image = cell.movieImageView.image
+            destinationViewController.movietitle = cell.movieTitleLabel.text!
+            destinationViewController.movieoverview = cell.movieOverviewLabel.text!
+            
+            let movie = self.movies[indexPath.row]
+            if let movieRelease = movie.value(forKeyPath: "release_date") as? String {
+                destinationViewController.movierelease = movieRelease
+            }
+            
+            print(movie.value(forKeyPath: "vote_average") as? Float ??  0)
+            
+            if let movieVote = movie.value(forKeyPath: "vote_average") as? Float {
+                //print(movieVote)
+                destinationViewController.movierating = movieVote
+            }
+            else
+            {
+                destinationViewController.movierating = 0
+            }
+            
+            
         }
     }
     
     
-    
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        
+        let url = URL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")
+        let request = URLRequest(url: url!)
+
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        let task: URLSessionDataTask = session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            if let data = data {
+                if let responseDictionary = try! JSONSerialization.jsonObject(
+                    with: data, options:[]) as? NSDictionary {
+                    self.movies = responseDictionary["results"] as! [NSDictionary]
+                    self.moviesTableView.reloadData()
+                }
+                
+                // Reload the tableView with new data
+                self.moviesTableView.reloadData()
+                
+                // End refreshing
+                refreshControl.endRefreshing()
+            }
+        }
+        task.resume()
+    }
 
 
 }
