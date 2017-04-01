@@ -55,7 +55,30 @@ class MovieViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let movieImage = movie.value(forKeyPath: "poster_path") as? String {
             let imageUrlString = "https://image.tmdb.org/t/p/w500" + (movieImage as String)
             if let imageUrl = URL(string: imageUrlString) {
-                cell.movieImageView.setImageWith(imageUrl)
+                let imageRequest = NSURLRequest(url: imageUrl)
+                
+                cell.movieImageView.setImageWith(
+                    imageRequest as URLRequest,
+                    placeholderImage: nil,
+                    success: { (imageRequest, imageResponse, image) -> Void in
+                        
+                        // imageResponse will be nil if the image is cached
+                        if imageResponse != nil {
+                            print("Image was NOT cached, fade in image")
+                            cell.movieImageView.alpha = 0.0
+                            cell.movieImageView.image = image
+                            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                                cell.movieImageView.alpha = 1.0
+                            })
+                        } else {
+                            print("Image was cached so just update the image")
+                            cell.movieImageView.image = image
+                        }
+                },
+                    failure: { (imageRequest, imageResponse, error) -> Void in
+                        // do something for the failure condition
+                })
+                //cell.movieImageView.setImageWith(imageUrl)
 
             }
         }
