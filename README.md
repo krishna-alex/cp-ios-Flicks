@@ -28,6 +28,8 @@ The following **optional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
+![Animated Screenshot](/FlicksDemo.gif?raw=true "Animated Screenshot")
+
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## License
