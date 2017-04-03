@@ -79,16 +79,17 @@ class MovieDetailsViewController: UIViewController {
         movieDetailsRating.sizeToFit()
         
         
-    
+        let releaseDate = movieDictionary.value(forKeyPath: "release_date") as? String
+        
         let Formatter = DateFormatter()
         Formatter.dateStyle = DateFormatter.Style.medium
         Formatter.dateFormat = "yyyy-MM-dd"
-        
-        let releasedate = movieDictionary.value(forKeyPath: "release_date") as? String
+        let parsedReleaseDate = Formatter.date(from: releaseDate!)
         
         Formatter.locale = Locale(identifier: "en_US")
         Formatter.dateStyle = DateFormatter.Style.long
-        movieDetailsRelease.text = String(describing: Formatter.date(from: releasedate!))
+        movieDetailsRelease.text = Formatter.string(from: parsedReleaseDate!)
+        
         movieDetailsRelease.sizeToFit()
  
         let contentWidth = movieDetailsScrollView.bounds.width
