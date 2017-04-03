@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        
+
         let tabBarController = UITabBarController()
         let tabViewController1 = NowPlayingViewController()
         
@@ -38,8 +38,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             image:UIImage(named: "Rating") ,
             tag:2)
         
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        window = UIWindow(frame: UIScreen.main.bounds)
+        if let window = window {
+            window.backgroundColor = UIColor.white
+            window.rootViewController = navigationController
+            window.makeKeyAndVisible()
+        }
+
+        
+        //        window?.rootViewController = navigationController
+//        window?.makeKeyAndVisible()
         
         return true
     }
