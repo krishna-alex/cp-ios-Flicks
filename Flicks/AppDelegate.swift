@@ -13,9 +13,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+ //       self.window = UIWindow(frame: UIScreen.main.bounds)
+//        self.window?.rootViewController = navigationController
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let nav1 = UINavigationController()
+        let mainView = MovieListViewController(nibName: nil, bundle: nil) //ViewController = Name of your controller
+        nav1.viewControllers = [mainView]
+        self.window!.rootViewController = nav1
+        self.window?.makeKeyAndVisible()
+
+        
+        let tabBarController = UITabBarController()
+        let tabViewController1 = NowPlayingViewController()
+        
+        let tabViewController2 = TopRatedViewController()
+        
+//        let tabViewController1 = NowPlayingViewController(nibName: "MovieListViewController", bundle: nil)
+//        
+//        let tabViewController2 = TopRatedViewController(nibName:"MovieListViewController", bundle: nil)
+        
+        let controllers = [tabViewController1,tabViewController2]
+        tabBarController.viewControllers = controllers
+        
+        let navigationController = UINavigationController(rootViewController: tabBarController)
+        
+        tabViewController1.tabBarItem = UITabBarItem(
+            title: "NowPlaying",
+            image: UIImage(named: "Rating"),
+            tag: 1)
+        tabViewController2.tabBarItem = UITabBarItem(
+            title: "TopRated",
+            image:UIImage(named: "Rating") ,
+            tag:2)
+        
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

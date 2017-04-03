@@ -2,14 +2,14 @@
 //  MovieDetailsViewController.swift
 //  Flicks
 //
-//  Created by Krishna Alex on 3/30/17.
+//  Created by Krishna Alex on 4/2/17.
 //  Copyright © 2017 Krishna Alex. All rights reserved.
 //
 
 import UIKit
 
 class MovieDetailsViewController: UIViewController {
-    
+
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var movieDetailsScrollView: UIScrollView!
     @IBOutlet weak var movieDetailsTitleLabel: UILabel!
@@ -23,33 +23,32 @@ class MovieDetailsViewController: UIViewController {
     var movieoverview: String!
     var movierelease: String!
     var movierating: Float!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         movieImageView.image = image
         movieDetailsTitleLabel.text = movietitle
-        movieDetailsOverviewLabel.text = movieoverview
+        //movieDetailsOverviewLabel.text = movieoverview
         
-        movieDetailsRating.text = "\(movierating!)"
+        //movieDetailsRating.text = "\(movierating!)"
         movieDetailsRating.sizeToFit()
-
+        
         
         let Formatter = DateFormatter()
         Formatter.dateStyle = DateFormatter.Style.medium
         Formatter.dateFormat = "yyyy-MM-dd"
-        let releasedate = Formatter.date(from: movierelease)
+        //let releasedate = Formatter.date(from: movierelease)
         
         Formatter.locale = Locale(identifier: "en_US")
         Formatter.dateStyle = DateFormatter.Style.long
-        movieDetailsRelease.text = Formatter.string(from: releasedate!)
-        movieDetailsRelease.sizeToFit()
+      //  movieDetailsRelease.text = Formatter.string(from: releasedate!)
+       // movieDetailsRelease.sizeToFit()
         
         let contentWidth = movieDetailsScrollView.bounds.width
         let contentHeight = movieDetailsScrollView.bounds.height
         movieDetailsScrollView.contentSize = CGSize(width: contentWidth, height: contentHeight)
         
-       
     }
 
     override func didReceiveMemoryWarning() {
