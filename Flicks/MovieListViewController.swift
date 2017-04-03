@@ -89,7 +89,7 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchActive = (searchText.characters.count > 0)
         if (!searchActive) {
-            self.moviesTableView.reloadData()
+            //self.moviesTableView.reloadData()
             return;
         }
         
