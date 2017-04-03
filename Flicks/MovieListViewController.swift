@@ -23,8 +23,7 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     @IBOutlet weak var moviesTableView: UITableView!
-    //@IBOutlet weak var searchBar: UISearchBar!
-    lazy var searchBar:UISearchBar = UISearchBar(frame: CGRect(x:0,y:0,width:200,height:200))
+    @IBOutlet weak var searchBar: UISearchBar!
 
     
     var movies: [NSDictionary] = []
@@ -48,12 +47,6 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
         moviesTableView.dataSource = self
         
         //set Navigation bar title and color
-        
-        navigationItem.title = "Flicks"
-        
-        searchBar.placeholder = "Your placeholder"
-        let leftNavBarButton = UIBarButtonItem(customView:searchBar)
-        self.navigationItem.leftBarButtonItem = leftNavBarButton
         
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
