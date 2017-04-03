@@ -24,7 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let controllers = [tabViewController1,tabViewController2]
         tabBarController.viewControllers = controllers
         let navigationController = UINavigationController(rootViewController: tabBarController)
-        
+
+        navigationController.navigationBar.barTintColor = UIColor.init(displayP3Red: 0.14, green: 0.31, blue: 0.49, alpha: 1.0)
+        navigationController.navigationBar.barStyle = UIBarStyle.black
+
         
         tabViewController1.tabBarItem = UITabBarItem(
             title: "NowPlaying",

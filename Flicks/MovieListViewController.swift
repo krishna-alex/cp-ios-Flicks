@@ -45,15 +45,11 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
         // Do any additional setup after loading the view.
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
+        searchBar.delegate = self
         
         //set Navigation bar title and color
-        
-        moviesTableView.delegate = self
-        moviesTableView.dataSource = self
-        searchBar.delegate = self
-    
         self.tabBarController?.navigationItem.titleView = searchBar;
-        
+
         let tableViewNib: UINib = UINib(nibName: "MovieTableViewCell", bundle: nil)
         self.moviesTableView.register(tableViewNib, forCellReuseIdentifier: "MovieTableViewCell")
         
@@ -93,6 +89,7 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchActive = (searchText.characters.count > 0)
         if (!searchActive) {
+            self.moviesTableView.reloadData()
             return;
         }
         
