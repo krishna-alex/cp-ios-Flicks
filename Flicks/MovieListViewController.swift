@@ -55,33 +55,11 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
         let leftNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.leftBarButtonItem = leftNavBarButton
         
-        
-        //let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
-        //self.view.addSubview(navBar);
-        //let navItem = UINavigationItem();
-        //let doneItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: nil, action: #selector(getter: UIAccessibilityCustomAction.selector));
-        //navItem.rightBarButtonItem = doneItem;
- //       self.navigationItem.titleView = self.searchBar;
-        
-//        var leftNavBarButton = UIBarButtonItem(customView:self.searchBar)
-//        self.navigationController?.navigationBar.setItems([leftNavBarButton], animated: false);
-        
-  //     self.navigationItem.titleView = self.searchBar;
-    //    self.tabBarItem. = self.searchBar;
-
-//        navigationController?.navigationBar.barTintColor = UIColor.init(displayP3Red: 0.14, green: 0.31, blue: 0.49, alpha: 1.0)
-//        navigationController?.navigationBar.barStyle = UIBarStyle.black
-//        //navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Icon-60@2x.png"), for: .default)
-        
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
         searchBar.delegate = self
-//        
-//        var searchBar:UISearchBar = UISearchBar(frame: CGRect(x:0,y:0,width:200,height:200))
-//        
-//        navigationItem.titleView = searchBar;
-//        searchBar.delegate = self
-//        
+    
+        self.tabBarController?.navigationItem.titleView = searchBar;
         
         let tableViewNib: UINib = UINib(nibName: "MovieTableViewCell", bundle: nil)
         self.moviesTableView.register(tableViewNib, forCellReuseIdentifier: "MovieTableViewCell")
