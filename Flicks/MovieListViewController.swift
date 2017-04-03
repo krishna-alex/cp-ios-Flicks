@@ -23,12 +23,15 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     @IBOutlet weak var moviesTableView: UITableView!
-    @IBOutlet weak var searchBar: UISearchBar!
+    //@IBOutlet weak var searchBar: UISearchBar!
+    lazy var searchBar:UISearchBar = UISearchBar(frame: CGRect(x:0,y:0,width:200,height:200))
+
     
     var movies: [NSDictionary] = []
     var searchActive : Bool = false
     var filteredMovies:[NSDictionary] = []
     var Data:[String] = []
+//    var valueToPass: NSDictionary!
     
     enum controllerTypes: String {
         case nowPlaying = "now_playing"
@@ -45,26 +48,34 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
         moviesTableView.dataSource = self
         
         //set Navigation bar title and color
-//        self.navigationItem.title = "Flicks"
         
-        let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
-        self.view.addSubview(navBar);
-        let navItem = UINavigationItem();
+        navigationItem.title = "Flicks"
+        
+        searchBar.placeholder = "Your placeholder"
+        let leftNavBarButton = UIBarButtonItem(customView:searchBar)
+        self.navigationItem.leftBarButtonItem = leftNavBarButton
+        
+        
+        //let navBar: UINavigationBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
+        //self.view.addSubview(navBar);
+        //let navItem = UINavigationItem();
         //let doneItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: nil, action: #selector(getter: UIAccessibilityCustomAction.selector));
         //navItem.rightBarButtonItem = doneItem;
-        navItem.titleView = self.searchBar;
+ //       self.navigationItem.titleView = self.searchBar;
         
 //        var leftNavBarButton = UIBarButtonItem(customView:self.searchBar)
 //        self.navigationController?.navigationBar.setItems([leftNavBarButton], animated: false);
         
-       // self.navigationItem.titleView = self.searchBar;
+  //     self.navigationItem.titleView = self.searchBar;
+    //    self.tabBarItem. = self.searchBar;
+
 //        navigationController?.navigationBar.barTintColor = UIColor.init(displayP3Red: 0.14, green: 0.31, blue: 0.49, alpha: 1.0)
 //        navigationController?.navigationBar.barStyle = UIBarStyle.black
 //        //navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Icon-60@2x.png"), for: .default)
         
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
-        
+        searchBar.delegate = self
 //        
 //        var searchBar:UISearchBar = UISearchBar(frame: CGRect(x:0,y:0,width:200,height:200))
 //        
@@ -162,30 +173,34 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
     
     //Prepare data and pass to detail screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationViewController = segue.destination as! MovieDetailsViewController
         
-        if let indexPath = moviesTableView.indexPathForSelectedRow {
-            let cell: MovieTableViewCell = moviesTableView.cellForRow(at: indexPath) as! MovieTableViewCell
-            destinationViewController.image = cell.movieImageView.image
-            destinationViewController.movietitle = cell.movieTitleLabel.text!
-            destinationViewController.movieoverview = cell.movieOverviewLabel.text!
+        if(segue.identifier == "MovieDetailsView") {
+            let destinationViewController = segue.destination as! MovieDetailsViewController
+           // destinationViewController.passedValue = valueToPass
+        
+            if let indexPath = moviesTableView.indexPathForSelectedRow {
+                let cell: MovieTableViewCell = moviesTableView.cellForRow(at: indexPath) as! MovieTableViewCell
+                destinationViewController.image = cell.movieImageView.image
+                destinationViewController.movietitle = cell.movieTitleLabel.text!
+                destinationViewController.movieoverview = cell.movieOverviewLabel.text!
             
-            let movie = self.movies[indexPath.row]
-            if let movieRelease = movie.value(forKeyPath: "release_date") as? String {
-                destinationViewController.movierelease = movieRelease
+                let movie = self.movies[indexPath.row]
+                if let movieRelease = movie.value(forKeyPath: "release_date") as? String {
+                    destinationViewController.movierelease = movieRelease
+                }
+            
+                //print(movie.value(forKeyPath: "vote_average") as? Float ??  0)
+            
+                if let movieVote = movie.value(forKeyPath: "vote_average") as? Float {
+                    destinationViewController.movierating = movieVote
+                }
+                else
+                {
+                    destinationViewController.movierating = 0
+                }
+            
+            
             }
-            
-            //print(movie.value(forKeyPath: "vote_average") as? Float ??  0)
-            
-            if let movieVote = movie.value(forKeyPath: "vote_average") as? Float {
-                destinationViewController.movierating = movieVote
-            }
-            else
-            {
-                destinationViewController.movierating = 0
-            }
-            
-            
         }
     }
     
@@ -247,17 +262,56 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("selected row at ", indexPath)
-        //let movie = self.movies[indexPath.row]
+        let movie = self.movies[indexPath.row]
+        //var valueToPass: NSDictionary!
         
         //NSDictionary *movie = self.moviesArray[indexPath.row];
         
         //MovieDetailsViewController *mvc = MovieDetailsViewController.init];
         
         //let mvc: MovieDetailsViewController = MovieDetailsViewController.init
+       /* let nav1 = UINavigationController()
+        let movieDetailController = MovieDetailsViewController()
+        let controller = [movieDetailController]
+        //tabBarController.viewControllers = [tabViewController1,tabViewController2]
+        nav1.viewControllers = controller
+        //nav1.viewControllers = controllers
+        
+        let navigationController = UINavigationController(rootViewController: nav1)*/
+
+     //   let mvc = MovieDetailsViewController(nibName: "MovieDetailsViewController", bundle: nil)
+      //  navigationController?.pushViewController(mvc, animated: true);
+        
+        //valueToPass = movie
+        
+      //  performSegue(withIdentifier: "MovieDetailsView", sender: self)
+      //  let indexPath = moviesTableView.indexPathForSelectedRow
+      //  let currentCell = moviesTableView.cellForRow(at: indexPath!) as UITableViewCell!;
+      //  let mvc = MovieDetailsViewController(nibName: "MovieDetailsViewController", bundle: nil)
+       // let cell: MovieTableViewCell = moviesTableView.cellForRow(at: indexPath!) as! MovieTableViewCell
+        //var viewController = mvc.instantiateViewControllerWithIdentifier("MovieDetailsView") as MovieDetailsViewController
+        //var viewController = mvc.presentedViewController("MovieDetailsView") as MovieDetailsViewController
+        
+       // let image = cell.movieImageView.image
+      //  let title = cell.movieTitleLabel.text!
+      //  let overview = cell.movieOverviewLabel.text!
+        //navigationController?.pushViewController(mvc, animated: true);
+      //  mvc.passedValue = [image, title, overview]
+     //   print(mvc.passedValue)
+       // self.presentViewController(viewContoller, animated: true , completion: nil)
+     //   navigationController?.pushViewController(mvc, animated: true);
+        
+        
+      //  NSDictionary *movie = self.moviesArray[indexPath.row];
         
         let mvc = MovieDetailsViewController(nibName: "MovieDetailsViewController", bundle: nil)
-        navigationController?.pushViewController(mvc, animated: true);
+        //MovieDetailsViewController *mvc = MovieDetailedViewController.init
+        mvc.movieDictionary = movie;
+        print(mvc.movieDictionary)
         
+        //[tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:NO];
+        navigationController?.pushViewController(mvc, animated: true);
+
         
         //mvc.movieDictionary = movie;
         

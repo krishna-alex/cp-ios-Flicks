@@ -11,7 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MovieDetailsViewController" customModule="Flicks" customModuleProvider="target">
             <connections>
-                <outlet property="movieDetailsRating" destination="CfW-ep-cQv" id="QVW-Of-9I9"/>
+                <outlet property="movieDetailsOverviewLabel" destination="Saj-JZ-fK3" id="euB-nt-hT7"/>
+                <outlet property="movieDetailsRating" destination="CfW-ep-cQv" id="lIO-96-JYh"/>
+                <outlet property="movieDetailsRelease" destination="yt5-XE-b7H" id="Fm9-IW-FW3"/>
                 <outlet property="movieDetailsScrollView" destination="W1A-Zi-RtP" id="EHl-mp-v5P"/>
                 <outlet property="movieDetailsTitleLabel" destination="zbK-KL-LlZ" id="Evy-o6-sCq"/>
                 <outlet property="movieImageView" destination="Xht-kR-7Gy" id="xwL-vE-GAN"/>
@@ -61,8 +63,8 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CfW-ep-cQv">
-                                    <rect key="frame" x="21" y="55" width="27" height="15"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CfW-ep-cQv">
+                                    <rect key="frame" x="23" y="55" width="21" height="11"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                     <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>

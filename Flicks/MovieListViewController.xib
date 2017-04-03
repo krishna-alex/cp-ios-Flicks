@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwO-st-3sg">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <rect key="frame" x="0.0" y="20" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="113" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4Wl-By-8bn">
@@ -31,14 +31,14 @@
                             <color key="backgroundColor" red="0.084193857679999998" green="0.1959526489" blue="0.32372303299999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="sectionIndexBackgroundColor" red="0.084193857679999998" green="0.1959526489" blue="0.32372303299999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </tableView>
-                        <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IGo-Uy-6fP">
-                            <rect key="frame" x="51" y="13" width="191" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </searchBar>
                     </subviews>
                     <color key="backgroundColor" red="0.084193857679999998" green="0.1959526489" blue="0.32372303299999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
+                <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IGo-Uy-6fP">
+                    <rect key="frame" x="51" y="0.0" width="191" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
             </subviews>
             <color key="backgroundColor" red="0.084193857679999998" green="0.1959526489" blue="0.32372303299999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </view>

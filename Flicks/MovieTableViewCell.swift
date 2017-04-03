@@ -84,7 +84,7 @@ class MovieTableViewCell: UITableViewCell {
                             // do something for the failure condition
                         })
                         
-                        if let movieLabel = movie.value(forKeyPath: "title") as? String {
+                        if let movieLabel = movie.value(forKeyPath: "original_title") as? String {
                             self.movieTitleLabel?.text = movieLabel
                             
                         }
